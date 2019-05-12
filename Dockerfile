@@ -35,8 +35,11 @@ RUN apk add --update git \
 		php7-redis \
 		php7-session \ 
 		composer && \
+		addgroup -S www-data && adduser -S www-data -G www-data && \
 		rm -rf /var/cache/apk/* && \
 		composer global require "hirak/prestissimo" -v && \
 		composer clearcache
 
 ENV PATH="/root/.composer/vendor/bin:${PATH}"
+
+CMD ["/usr/sbin/php-fpm7", "-F", "-R"]
